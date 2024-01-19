@@ -24,7 +24,7 @@ class Garage:
             self.current_ticket["paid"] = True
             print(f"Your ticket number: {self.current_ticket['ticket_number']} is now paid")
     
-    def leave_garage(self):
+    def leave_garage(self): 
         if "ticket_number" in self.current_ticket:
             if self.current_ticket.get("paid"):
                 print("Thank you, Have a nice day!")
