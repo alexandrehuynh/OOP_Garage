@@ -1,25 +1,31 @@
 class Garage:
     def __init__(self):
-        self.tickets = [True] * 100  # Assuming 100 tickets initially
-        self.parking_spaces = [True] * 100  # Assuming 100 parking spaces initially
+        self.tickets = [True] * 121 # Initial ticket
+        self.parking_spaces = [True] * 121 # Initial parking spacesw
         self.current_ticket = {}
-
+        
     def take_ticket(self):
         if True in self.tickets:
+            
             ticket_index = self.tickets.index(True)
+            
             self.tickets[ticket_index] = False
             self.parking_spaces[ticket_index] = False
-            self.current_ticket = {"ticket_number": ticket_index, "paid": False}
+            self.current_ticket = {"ticket number": ticket_index, "paid": False}
             print(f"Ticket #{ticket_index} taken. Please park at space #{ticket_index}.")
+        
         else:
-            print("No tickets available.")
-
-    def pay_for_parking(self):
+            print("No tickets available")
+            
+    def pay_for_parking(self):   
+        amount = float(input("Enter amount to pay: "))
+        
+        if amount > 0:
+            self.current_ticket["paid"] = True
+            print(f"Your ticket number: {self.current_ticket['ticket number']} is now paid")
+    
+    def leave_garage():
         pass
-
-    def leave_garage(self):
-        pass
-
 
 #####   TESTING    ####
 garage = Garage()
