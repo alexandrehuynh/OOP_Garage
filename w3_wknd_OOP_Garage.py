@@ -45,3 +45,22 @@ class Garage:
                 
         else:
             print("Yoooo we need a ticket home boy/girl!")
+
+
+# Garage class containing:
+# - tickets: List to track available tickets.
+# - parking_spaces: List to track available parking spaces.
+# - current_ticket: Dictionary to track the status of the current ticket.
+# - rate_per_hour: Attribute to store the hourly parking rate.
+# - entry_time: Dictionary to track the entry time for each ticket.
+# - exit_time: Dictionary to track the exit time for each ticket.
+
+# Methods:
+# - take_ticket()
+# - pay_for_parking()
+# - leave_garage()
+# - calculate_fee()
+# - check_space_availability()
+# - display_garage_status()
+# - extend_parking()
+# - generate_report()
