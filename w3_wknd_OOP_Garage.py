@@ -2,10 +2,9 @@ import datetime
 
 class Garage:
     def __init__(self):
-        self.tickets = [True] * 121 # Initial ticket
-        self.parking_spaces = [True] * 121 # Initial parking spaces
-        self.active_tickets = {} 
-        self.entry_time = {}
+        self.tickets = [True] * 121  # Initial ticket
+        self.parking_spaces = [True] * 121  # Initial parking spaces
+        self.active_tickets = {}
         self.exit_time = {}
         self.rate_per_hour = 2.0
         
@@ -15,7 +14,6 @@ class Garage:
             self.tickets[ticket_index] = False
             self.parking_spaces[ticket_index] = False
             self.active_tickets[ticket_index] = {"paid": False, "entry_time": datetime.datetime.now()}
-            self.entry_time[ticket_index] = datetime.datetime.now() 
             print(f"Ticket #{ticket_index} taken. Please park at space #{ticket_index}.")
         else:
             print("No tickets available")
@@ -29,8 +27,8 @@ class Garage:
         return True in self.tickets
 
     def calculate_fee(self, ticket_number):
-        if ticket_number in self.entry_time:
-            entry_time = self.entry_time[ticket_number]
+        if ticket_number in self.active_tickets:
+            entry_time = self.active_tickets[ticket_number]["entry_time"]
             exit_time = datetime.datetime.now()
             duration = exit_time - entry_time
             hours = duration.total_seconds() / 3600
@@ -40,7 +38,7 @@ class Garage:
             return 0
 
     def pay_for_parking(self, ticket_number=None):
-        if ticket_number in self.active_tickets and ticket_number in self.entry_time:
+        if ticket_number in self.active_tickets:
             required_fee = self.calculate_fee(ticket_number)
             amount = float(input("Enter payment amount: "))
             if amount >= required_fee:
@@ -52,12 +50,12 @@ class Garage:
             print("Invalid ticket number or ticket not found.")
             
     def leave_garage(self, ticket_number=None):
-        if ticket_number in self.active_tickets and ticket_number in self.entry_time:
+        if ticket_number in self.active_tickets:
             if self.active_tickets[ticket_number].get("paid", False):
                 print("Thank you, have a nice day!")
                 self.tickets[ticket_number] = True
                 self.parking_spaces[ticket_number] = True
-                del self.active_tickets[ticket_number]  
+                del self.active_tickets[ticket_number]
             else:
                 print("Ticket not paid. Please pay for your parking.")
                 self.pay_for_parking(ticket_number)
