@@ -4,7 +4,7 @@ class Garage:
     def __init__(self):
         self.tickets = [True] * 121 # Initial ticket
         self.parking_spaces = [True] * 121 # Initial parking spaces
-        self.current_ticket = {}
+        self.active_tickets = {} 
         self.entry_time = {}
         self.exit_time = {}
         self.rate_per_hour = 2.0
@@ -14,8 +14,8 @@ class Garage:
             ticket_index = self.tickets.index(True)
             self.tickets[ticket_index] = False
             self.parking_spaces[ticket_index] = False
-            self.current_ticket = {"ticket_number": ticket_index, "paid": False}
-            self.entry_time[ticket_index] = datetime.datetime.now()  # Record entry time
+            self.active_tickets[ticket_index] = {"paid": False, "entry_time": datetime.datetime.now()}
+            self.entry_time[ticket_index] = datetime.datetime.now()  # Ensure this line is working correctly
             print(f"Ticket #{ticket_index} taken. Please park at space #{ticket_index}.")
         else:
             print("No tickets available")
@@ -40,42 +40,34 @@ class Garage:
             return 0
 
     def pay_for_parking(self, ticket_number=None):
-        if ticket_number is None:
-            ticket_number = self.current_ticket.get("ticket_number")
-
-        if ticket_number is not None and ticket_number in self.entry_time:
+        if ticket_number in self.active_tickets and ticket_number in self.entry_time:
             required_fee = self.calculate_fee(ticket_number)
             amount = float(input("Enter payment amount: "))
             if amount >= required_fee:
+                self.active_tickets[ticket_number]["paid"] = True
                 print(f"Payment accepted for ticket number: {ticket_number}.")
-                self.current_ticket = {}  # Clear current ticket
-                self.exit_time[ticket_number] = datetime.datetime.now()
             else:
                 print("Error in payment. Please try again.")
         else:
             print("Invalid ticket number or ticket not found.")
             
     def leave_garage(self, ticket_number=None):
-        if ticket_number is None:
-            ticket_number = self.current_ticket.get("ticket_number")
-
-        if ticket_number in self.entry_time:
-            if not self.current_ticket.get("paid", False):
-                print("Ticket not paid. Please pay for your parking.")
-                self.pay_for_parking(ticket_number)
-
-            if self.current_ticket.get("paid"):
+        if ticket_number in self.active_tickets and ticket_number in self.entry_time:
+            if self.active_tickets[ticket_number].get("paid", False):
                 print("Thank you, have a nice day!")
                 self.tickets[ticket_number] = True
                 self.parking_spaces[ticket_number] = True
-                self.current_ticket = {}
+                del self.active_tickets[ticket_number]  # Remove the ticket from active_tickets
+            else:
+                print("Ticket not paid. Please pay for your parking.")
+                self.pay_for_parking(ticket_number)
         else:
             print("Invalid ticket number or no ticket has been taken.")
 
 # Garage class containing:
 # - tickets: List to track available tickets.
 # - parking_spaces: List to track available parking spaces.
-# - current_ticket: Dictionary to track the status of the current ticket.
+# - active_tickets: Dictionary to track the status of the current ticket.
 # - rate_per_hour: Attribute to store the hourly parking rate.
 # - entry_time: Dictionary to track the entry time for each ticket.
 # - exit_time: Dictionary to track the exit time for each ticket.
