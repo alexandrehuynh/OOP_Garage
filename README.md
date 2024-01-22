@@ -1,6 +1,6 @@
 Coding Temple - Rangers 138
 Week 3 Weekend Project
-Contributors: Alex Huynh, MOrgan McIntosh
+Contributors: Alex Huynh, Morgan McIntosh
 
 Project: Build a garage class using object oriented programming
 
