@@ -59,23 +59,18 @@ class Garage:
         if ticket_number is None:
             ticket_number = self.current_ticket.get("ticket_number")
 
-        if ticket_number is not None and ticket_number in self.entry_time:
-            if self.current_ticket.get("paid", False):
+        if ticket_number in self.entry_time:
+            if not self.current_ticket.get("paid", False):
+                print("Ticket not paid. Please pay for your parking.")
+                self.pay_for_parking(ticket_number)
+
+            if self.current_ticket.get("paid"):
                 print("Thank you, have a nice day!")
                 self.tickets[ticket_number] = True
                 self.parking_spaces[ticket_number] = True
                 self.current_ticket = {}
-            else:
-                print("Ticket not paid. Please pay for your parking.")
-                self.pay_for_parking(ticket_number)
-                if self.current_ticket.get("paid"):
-                    print("Thank you, have a nice day!")
-                    self.tickets[ticket_number] = True
-                    self.parking_spaces[ticket_number] = True
-                    self.current_ticket = {}
         else:
             print("Invalid ticket number or no ticket has been taken.")
-
 
 # Garage class containing:
 # - tickets: List to track available tickets.
