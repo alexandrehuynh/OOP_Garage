@@ -15,7 +15,7 @@ class Garage:
             self.tickets[ticket_index] = False
             self.parking_spaces[ticket_index] = False
             self.active_tickets[ticket_index] = {"paid": False, "entry_time": datetime.datetime.now()}
-            self.entry_time[ticket_index] = datetime.datetime.now()  # Ensure this line is working correctly
+            self.entry_time[ticket_index] = datetime.datetime.now() 
             print(f"Ticket #{ticket_index} taken. Please park at space #{ticket_index}.")
         else:
             print("No tickets available")
@@ -57,7 +57,7 @@ class Garage:
                 print("Thank you, have a nice day!")
                 self.tickets[ticket_number] = True
                 self.parking_spaces[ticket_number] = True
-                del self.active_tickets[ticket_number]  # Remove the ticket from active_tickets
+                del self.active_tickets[ticket_number]  
             else:
                 print("Ticket not paid. Please pay for your parking.")
                 self.pay_for_parking(ticket_number)
