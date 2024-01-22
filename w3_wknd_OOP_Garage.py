@@ -5,9 +5,11 @@ class Garage:
         self.tickets = [True] * 121  # Initial ticket
         self.parking_spaces = [True] * 121  # Initial parking spaces
         self.active_tickets = {}
-        self.exit_time = {}
         self.rate_per_hour = 2.0
         
+    def check_space_availability(self):
+        return True in self.tickets
+
     def take_ticket(self):
         if self.check_space_availability():
             ticket_index = self.tickets.index(True)
@@ -17,14 +19,6 @@ class Garage:
             print(f"Ticket #{ticket_index} taken. Please park at space #{ticket_index}.")
         else:
             print("No tickets available")
-     
-    def display_garage_status(self):
-        available_tickets = self.tickets.count(True)
-        available_spaces = self.parking_spaces.count(True)
-        print(f"Available Tickets: {available_tickets}, Available Spaces: {available_spaces}")
-        
-    def check_space_availability(self):
-        return True in self.tickets
 
     def calculate_fee(self, ticket_number):
         if ticket_number in self.active_tickets:
@@ -48,7 +42,7 @@ class Garage:
                 print("Error in payment. Please try again.")
         else:
             print("Invalid ticket number or ticket not found.")
-            
+
     def leave_garage(self, ticket_number=None):
         if ticket_number in self.active_tickets:
             if self.active_tickets[ticket_number].get("paid", False):
@@ -62,6 +56,48 @@ class Garage:
         else:
             print("Invalid ticket number or no ticket has been taken.")
 
+    def display_garage_status(self):
+        available_tickets = self.tickets.count(True)
+        available_spaces = self.parking_spaces.count(True)
+        print(f"Available Tickets: {available_tickets}, Available Spaces: {available_spaces}")
+
+    def extend_parking_time(self, ticket_number):
+        if ticket_number in self.current_ticket:
+            ticket_number = self.current_ticket.get("paid")
+            print(f"How many minutes would you like to extend your parking {ticket_number}?")
+
+        else:
+            print("You did not add time to your ticket!")
+            self.pay_for_parking()
+
+    def interactive_menu(self):
+        while True:
+            print("Welcome to the Garage! ")
+            print("A. Take a ticket")
+            print("B. Pay for parking ")
+            print("C. Extend parking")
+            print("D. Leave garage")
+            choice = input("Choose option A-D: ")
+
+            if choice == "A":
+                self.take_ticket()
+            elif choice == "B":
+                ticket_number = int(input("Enter your ticket number: "))
+                self.pay_for_parking(ticket_number)
+            elif choice == "C":
+                ticket_number = int(input("Enter your ticket number to extend parking: "))
+                self.extend_parking_time(ticket_number)
+            elif choice == "D":
+                ticket_number = int(input("Enter your ticket number to leave: "))
+                self.leave_garage(ticket_number)
+                break
+            else:
+                print("Invalid option. Please try again.")
+
+# Create an instance of the Garage and start the interactive menu
+garage = Garage()
+garage.interactive_menu()
+     
 # Garage class containing:
 # - tickets: List to track available tickets.
 # - parking_spaces: List to track available parking spaces.
