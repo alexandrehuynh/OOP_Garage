@@ -23,11 +23,21 @@ class Garage:
         if amount > 0:
             self.current_ticket["paid"] = True
             print(f"Your ticket number: {self.current_ticket['ticket_number']} is now paid")
+
+    def extend_parking_time(self):
+        if ticket_number in self.current_ticket:
+            ticket_number = self.current_ticket.get("paid")
+            print(f"How many minutes would you like to extend your parking {ticket_number}?")
+
+        else:
+            print("You did not add time to your ticket!")
+            self.pay_for_parking()
+
     
     def leave_garage(self): 
         if "ticket_number" in self.current_ticket:
             if self.current_ticket.get("paid"):
-                print("Thank you, Have a nice day!")
+                print("You may leave the Batcave!")
                 ticket_number = self.current_ticket['ticket_number']
                 self.parking_spaces[ticket_number] = True
                 self.tickets[ticket_number] = True
@@ -37,7 +47,7 @@ class Garage:
                 print("You have not paid your ticket.")
                 self.pay_for_parking() 
                 if self.current_ticket.get("paid"):
-                    print("Thank you, Have a nice day!")
+                    print("You may leave the Batcave!")
                     ticket_number = self.current_ticket['ticket_number']
                     self.parking_spaces[ticket_number] = True
                     self.tickets[ticket_number] = True
@@ -46,6 +56,31 @@ class Garage:
         else:
             print("Yoooo we need a ticket home boy/girl!")
 
+    def interactive_menu(self):
+        while True:
+            print("Welcome to the BatCave! ")
+            print("A. Take a ticket")
+            print("B. pay for paking ")
+            print("C. Extend parking")
+            print("D. Leave garage")
+            person = input("Choose option A-D to access the BatCave!")
+
+            if person == "A":
+                self.take_ticket()
+            elif person == "B":
+                self.pay_for_parking()
+            elif person == "C":
+                self.extend_parking_time()
+            elif person == "D":
+                self.leave_garage()
+                break
+            else:
+                print("Access denied to the Bat Cave!")
+
+
+
+garage = Garage()
+garage.interactive_menu()
 
 # Garage class containing:
 # - tickets: List to track available tickets.
