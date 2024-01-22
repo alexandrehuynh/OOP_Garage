@@ -78,18 +78,6 @@ class Garage:
         print(f"Available Tickets: {available_tickets}, Available Spaces: {available_spaces}")
     
     def interactive_menu(self):
-        # Interactive menu for users to interact with the garage system
-        while True:
-            print("\nWelcome to the Garage!")
-            print("A. Take a ticket")
-            print("B. Pay for parking")
-            print("C. Extend parking")
-            print("D. Leave garage")
-            print("E. Exit program")
-            print("F. Display garage status")
-            choice = input("Choose option A-F: ").upper()
-
-    def interactive_menu(self):
         while True:
             print("\nWelcome to the Garage!")
             print("A. Take a ticket")
