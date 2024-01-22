@@ -10,14 +10,13 @@ class Garage:
         self.rate_per_hour = 2.0
         
     def take_ticket(self):
-        if True in self.tickets:
+        if self.check_space_availability():
             ticket_index = self.tickets.index(True)
             self.tickets[ticket_index] = False
             self.parking_spaces[ticket_index] = False
             self.current_ticket = {"ticket_number": ticket_index, "paid": False}
             self.entry_time[ticket_index] = datetime.datetime.now()  # Record entry time
             print(f"Ticket #{ticket_index} taken. Please park at space #{ticket_index}.")
-        
         else:
             print("No tickets available")
      
