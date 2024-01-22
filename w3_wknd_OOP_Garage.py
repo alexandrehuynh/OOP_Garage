@@ -29,33 +29,33 @@ class Garage:
     def check_space_availability(self):
         return True in self.tickets
 
-    def calculate_fee(self):
-        if "ticket_number" in self.current_ticket:
-            ticket_number = self.current_ticket["ticket_number"]
-            if ticket_number in self.entry_time:
-                entry_time = self.entry_time[ticket_number]
-                exit_time = datetime.datetime.now()
-                duration = exit_time - entry_time
-                hours = duration.total_seconds() / 3600
-                fee = round(hours * self.rate_per_hour, 2)
-                return fee
+    def calculate_fee(self, ticket_number):
+        if ticket_number in self.entry_time:
+            entry_time = self.entry_time[ticket_number]
+            exit_time = datetime.datetime.now()
+            duration = exit_time - entry_time
+            hours = duration.total_seconds() / 3600
+            return round(hours * self.rate_per_hour, 2)
+        else:
+            print("Error: Entry time not recorded for this ticket.")
+            return 0
+
+    def pay_for_parking(self, ticket_number=None):
+        if ticket_number is None:
+            ticket_number = self.current_ticket.get("ticket_number")
+
+        if ticket_number is not None and ticket_number in self.entry_time:
+            required_fee = self.calculate_fee(ticket_number)
+            amount = float(input("Enter payment amount: "))
+            if amount >= required_fee:
+                print(f"Payment accepted for ticket number: {ticket_number}.")
+                self.current_ticket = {}  # Clear current ticket
+                self.exit_time[ticket_number] = datetime.datetime.now()
             else:
-                print("Error: Entry time not recorded.")
-                return 0  # Default fee or appropriate handling
+                print("Error in payment. Please try again.")
         else:
-            print("Error: No current ticket.")
-            return 0  # Default fee or appropriate handling
-
-    def pay_for_parking(self):
-        amount = float(input("Enter payment amount: "))
-        required_fee = self.calculate_fee()
-        if required_fee is not None and amount >= required_fee:
-            self.current_ticket["paid"] = True
-            print(f"Your ticket number: {self.current_ticket['ticket_number']} is now paid")
-        else:
-            print("Error in payment. Please try again.")
-
-    
+            print("Invalid ticket number or ticket not found.")
+            
     def leave_garage(self): 
         if "ticket_number" in self.current_ticket:
             if self.current_ticket.get("paid"):
